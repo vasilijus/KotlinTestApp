@@ -9,9 +9,9 @@ import android.widget.TextView
 class MainActivity : AppCompatActivity() {
     private var gameStarted = false
     private lateinit var countDownTimer: CountDownTimer
-    private var initialCountDown: Long = 60000
+    private var initialCountDown: Long = 10000
     private var countDownInterval: Long = 1000
-    private var timeLeft = 60
+    private var timeLeft = 10
 
     private lateinit var gameScoreTextView: TextView
     private lateinit var timeLeftTextView: TextView
@@ -53,11 +53,11 @@ class MainActivity : AppCompatActivity() {
         timeLeftTextView.text = initialTimeLeft
 
         countDownTimer = object: CountDownTimer(initialCountDown, countDownInterval) {
-            override fun onTick(millisUnitlFinished: Long) {
-                TODO("Not yet implemented")
-                timeLeft = millisUnitlFinished.toInt() / 1000
-
-                val timeLeftString = getString(R.string.time_left, timeLeft)
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeft = millisUntilFinished.toInt() / 1000
+                val timeLeftString = getString(R.string.time_left,
+                    timeLeft)
+                timeLeftTextView.text = timeLeftString
             }
 
             override fun onFinish() {
