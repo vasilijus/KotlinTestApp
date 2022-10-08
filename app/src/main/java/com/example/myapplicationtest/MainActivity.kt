@@ -3,10 +3,13 @@ package com.example.myapplicationtest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
+    private val TAG = MainActivity::class.java.simpleName
     private var gameStarted = false
     private lateinit var countDownTimer: CountDownTimer
     private var initialCountDown: Long = 10000
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d(TAG, "onCreate called. Score is: $score")
 
         gameScoreTextView = findViewById(R.id.game_score_text_view)
         timeLeftTextView = findViewById(R.id.timeleft_text_view)
@@ -61,8 +65,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                TODO("Not yet implemented")
-
+//                TODO("Not yet implemented")
+                endGame()
             }
         }
 
@@ -75,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun endGame() {
-    //
+        Toast.makeText(this, getString(R.string.game_over_message, score), Toast.LENGTH_LONG).show()
+        resetGame()
     }
 }
