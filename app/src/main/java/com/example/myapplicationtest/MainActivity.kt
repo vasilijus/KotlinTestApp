@@ -3,10 +3,12 @@ package com.example.myapplicationtest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import java.sql.Time
 
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.java.simpleName
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d(TAG, "onCreate called. Score is: $score")
 
+
         gameScoreTextView = findViewById(R.id.game_score_text_view)
         timeLeftTextView = findViewById(R.id.timeleft_text_view)
         tapMeButton = findViewById(R.id.tap_me_button)
@@ -35,6 +38,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         resetGame()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt(SCORE_KEY, score)
+        outState.putInt(TIME_LEFT_KEY, timeLeft)
+        countDownTimer.cancel()
+        Log.d(TAG, "onSaveInstanceState: Saving Score: $score & Time Left: $timeLeft")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "called onDestroy")
     }
 
     private fun incrementScore() {
@@ -81,5 +98,10 @@ class MainActivity : AppCompatActivity() {
     private fun endGame() {
         Toast.makeText(this, getString(R.string.game_over_message, score), Toast.LENGTH_LONG).show()
         resetGame()
+    }
+
+    companion object {
+        private const val SCORE_KEY = "SKORE_KEY"
+        private const val TIME_LEFT_KEY = "TIME_LEFT_KEY"
     }
 }
